@@ -10,8 +10,12 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun dice_roll_value() {
+        val dice = Dice()
+        var rollValue = dice.roll()
+        assertTrue("Dice value (${rollValue}) is not between 1 and ${dice.sides}", rollValue in 1..dice.sides)
     }
+
 }

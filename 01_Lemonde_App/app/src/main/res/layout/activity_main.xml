@@ -50,15 +50,16 @@
 
     <ImageView
         android:id="@+id/lemonImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="315dp"
+        android:layout_height="357dp"
         android:contentDescription="@string/lemon_image_description"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_action"
         app:layout_constraintVertical_bias="0.100000024"
-        app:srcCompat="@drawable/lemon_tree"
-        tools:ignore="ImageContrastCheck" />
+        tools:ignore="ImageContrastCheck"
+        tools:srcCompat="@drawable/lemon_tree" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

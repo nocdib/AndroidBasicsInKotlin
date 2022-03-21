@@ -52,7 +52,7 @@ class LemonadeTests : BaseTest() {
      * Test that the pick lemon functionality takes us to the "squeeze state"
      */
     @Test
-    fun `test_picking_lemon_proceeds_to_squeeze_state`() {
+    fun test_picking_lemon_proceeds_to_squeeze_state() {
         // Click image to progress state
         onView(withId(R.id.image_lemon_state)).perform(click())
         testState(R.string.lemon_squeeze, R.drawable.lemon_squeeze)

@@ -8,9 +8,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.NumberFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -52,13 +53,14 @@ class MainActivity : AppCompatActivity() {
         calculateButton!!.setOnClickListener {
             closeKeyboard()
             var cost = costOfService!!.getText().toString().toDouble()
-            var tipAmount = BigDecimal(cost * tipPercentage).setScale(2, roundingMethod()).toString()
+            var tipAmount = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(cost * tipPercentage)
+            val totalAmount = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(cost * (1 + tipPercentage) )
             /* Snackbar.make(
                 findViewById(R.id.constraint_layout),
                 roundingMethod().toString(),
                 Snackbar.LENGTH_SHORT
             ).show() */
-            tipResult!!.setText("$" + tipAmount)
+            tipResult!!.setText("${tipAmount} (${totalAmount})")
         }
 
     }

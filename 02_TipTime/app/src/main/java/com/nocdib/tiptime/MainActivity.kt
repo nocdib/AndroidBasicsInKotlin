@@ -8,27 +8,52 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import java.math.BigDecimal
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.TextInputEditText
 import java.math.RoundingMode
 import java.text.NumberFormat
 import java.util.*
-
+import com.nocdib.tiptime.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private var calculateButton: Button? = null
     private var tipResult: TextView? = null
-    private var costOfService: EditText? = null
-    private var roundUpSwitch: Switch? = null
+    private var costOfService: TextInputEditText? = null
+    private var roundUpSwitch: SwitchMaterial? = null
     private var tipPercentage: Double = 0.2
+
+    // Binding object instance with access to the views in the activity_main.xml layout
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        // Inflate the layout XML file and return a binding object instance
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        // Set the content view of the Activity to be the root view of the layout
+        setContentView(binding.root)
+
+        // Setup a click listener on the calculate button to calculate the tip
+        binding.calculateButton.setOnClickListener {
+            closeKeyboard()
+            val stringInTextField = binding.costOfServiceEditText.text.toString()
+            var cost = stringInTextField.toDouble()
+            var tipAmount = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(cost * tipPercentage)
+            val totalAmount = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(cost * (1 + tipPercentage) )
+            /* Snackbar.make(
+                findViewById(R.id.constraint_layout),
+                roundingMethod().toString(),
+                Snackbar.LENGTH_SHORT
+            ).show() */
+            tipResult!!.setText("${tipAmount} (${totalAmount})")
+        }
+
 
         calculateButton = findViewById(R.id.calculate_button)
         tipResult = findViewById(R.id.tip_result)
-        costOfService = findViewById(R.id.cost_of_service)
+        costOfService = findViewById(R.id.cost_of_service_edit_text)
         roundUpSwitch = findViewById(R.id.round_up_switch)
 
         calculateButton!!.isEnabled = false
@@ -40,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                var cost = costOfService!!.getText().toString().toDoubleOrNull()
+                var cost = binding.costOfServiceEditText.text.toString().toDoubleOrNull()
                 if (cost == null) {
                     calculateButton!!.isEnabled = false
                     tipResult!!.setText(resources.getString(R.string.tip_amount))
@@ -49,19 +74,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
-        calculateButton!!.setOnClickListener {
-            closeKeyboard()
-            var cost = costOfService!!.getText().toString().toDouble()
-            var tipAmount = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(cost * tipPercentage)
-            val totalAmount = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(cost * (1 + tipPercentage) )
-            /* Snackbar.make(
-                findViewById(R.id.constraint_layout),
-                roundingMethod().toString(),
-                Snackbar.LENGTH_SHORT
-            ).show() */
-            tipResult!!.setText("${tipAmount} (${totalAmount})")
-        }
 
     }
 

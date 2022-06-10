@@ -108,10 +108,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun closeKeyboard() {
-        // this will give us the view which is currently focus in this layout
+        // this will give us the view which is currently in focus on this layout
         val view: View? = this.currentFocus
 
-        // if nothing is currently focus then this will protect the app from crash
+        // if nothing is currently in focus then this will protect the app from crashing
         if (view != null) {
             // now assign the system service to InputMethodManager
             val manager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
